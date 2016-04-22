@@ -4,7 +4,7 @@ services:
   - docker
 
 env:
-  - DOCKER_REPO_SLUG=activatedgeek/consul-server
+  - DOCKER_REPO_SLUG=activatedgeek/consul
 
 script:
   # build latest image always
