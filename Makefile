@@ -3,12 +3,13 @@
 ##
 
 latest: Dockerfile
-	@docker build -t activatedgeek/consul-server:devel .
+	@docker build -t activatedgeek/consul:devel .
 
 run:
 	@docker run -d -p 8500:8500 \
 		--name test-consul-server \
-		activatedgeek/consul-server:devel
+		activatedgeek/consul:devel \
+		server 127.0.0.1
 
 restart:
 	@make kill

@@ -2,20 +2,21 @@
 
 DATACENTER=${DATACENTER:-consul-dc}
 LOG_LEVEL=${LOG_LEVEL:-INFO}
+BIND_ADDR=${BIND_ADDR:-0.0.0.0}
 HOSTNAME=`hostname`
-# only used during server mode
+# only used during server mode, recommended for HA clusters
 BOOTSTRAP_EXPECT=${BOOTSTRAP_EXPECT:-1}
-
-MODE="$1"
-JOIN_ADDR="$2"
 
 if [[ "$1" = "" ]]; then
   echo "[ERROR] Mode argument missing, need 'server' or 'agent'"
+  exit 1
 fi
 
-if [[ "$2" = "" ]]; then
-  echo '[ERROR] Peer node missing, specify a valid FQDN or IP address'
-fi
+# must be server or agent
+MODE="$1"
+
+# needs a FQDN or reachable IP address
+JOIN_ADDR="$2"
 
 # setup consul server config
 cat > /opt/consul/server/conf.d/00consul-server.json <<- EOS
@@ -25,11 +26,11 @@ cat > /opt/consul/server/conf.d/00consul-server.json <<- EOS
   "datacenter": "$DATACENTER",
   "data_dir": "/opt/consul/server",
   "log_level": "$LOG_LEVEL",
-  "bind_addr": "0.0.0.0",
+  "bind_addr": "$BIND_ADDR",
   "client_addr": "0.0.0.0",
   "ui": true,
   "bootstrap_expect": $BOOTSTRAP_EXPECT,
-  "start_join": ["127.0.0.1"]
+  "start_join": ["$JOIN_ADDR"]
 }
 EOS
 
@@ -40,8 +41,8 @@ cat > /opt/consul/agent/conf.d/00consul-agent.json <<- EOA
   "datacenter": "$DATACENTER",
   "data_dir": "/opt/consul/agent",
   "log_level": "$LOG_LEVEL",
-  "bind_addr": "0.0.0.0",
-  "start_join": ["127.0.0.1"]
+  "bind_addr": "$BIND_ADDR",
+  "start_join": ["$JOIN_ADDR"]
 }
 EOA
 
