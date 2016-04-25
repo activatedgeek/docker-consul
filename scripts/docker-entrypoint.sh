@@ -2,7 +2,10 @@
 
 DATACENTER=${DATACENTER:-consul-dc}
 LOG_LEVEL=${LOG_LEVEL:-INFO}
-BIND_ADDR=${BIND_ADDR:-0.0.0.0}
+
+DEFAULT_NETWORK_BIND_ADDR=`ip route|awk '/default/ { print $3 }'`
+
+BIND_ADDR=${BIND_ADDR:-$DEFAULT_NETWORK_BIND_ADDR}
 HOSTNAME=`hostname`
 # only used during server mode, recommended for HA clusters
 BOOTSTRAP_EXPECT=${BOOTSTRAP_EXPECT:-1}
