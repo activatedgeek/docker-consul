@@ -10,7 +10,7 @@ The container contains the following:
 * `Consul` (0.6.4)
 
 ## Images
-* `latest`, `0.1`, `0.1.2` ([Dockerfile](./Dockerfile))
+* `latest`, `0.1`, `0.1.3` ([Dockerfile](./Dockerfile))
 
 ## Usage
 Pull the docker image from Docker hub as:
@@ -26,7 +26,8 @@ For a complete documentation on `Consul` configuration parameters, check
 The image supports the following environment variables:
 * `DATACENTER`: name of the consul datacenter (default: `consul-dc`) (equivalent of `-dc` CLI flag)
 * `LOG_LEVEL`: level of log verbosity (default: `INFO`) (equivalent of `-log-level` CLI flag)
-* `BIND_ADDR`: network interface to bind to (default: `0.0.0.0`) (equivalent of `-bind` CLI flag)
+* `NETWORK_INTERFACE`: network interface to bind to (default: `eth0`) (this is used by `BIND_ADDR`)
+* `BIND_ADDR`: network interface to bind to (default: `0.0.0.0`) (equivalent of `-bind` CLI flag) (this overrides `NETWORK_INTERFACE`)
 * `BOOTSTRAP_EXPECT`: number of nodes to declare healthy quorum (default: `1`) (equivalent of `-bootstrap-expect` CLI flag)
 
 The run command looks like:
