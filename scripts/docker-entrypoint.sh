@@ -11,7 +11,7 @@ BOOTSTRAP_EXPECT=${BOOTSTRAP_EXPECT:-1}
 
 NETWORK_BIND_ADDR=`ifconfig $NETWORK_INTERFACE| awk '/inet addr/{print substr($2,6)}'`
 # either use the default network address or externally provided
-BIND_ADDR=${BIND_ADDR:-$DEFAULT_NETWORK_BIND_ADDR}
+BIND_ADDR=${BIND_ADDR:-$NETWORK_BIND_ADDR}
 HOSTNAME=`hostname`
 
 if [[ "$1" = "" ]]; then
