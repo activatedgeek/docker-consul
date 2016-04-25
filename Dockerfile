@@ -14,13 +14,6 @@ RUN apk update &&\
 
 ADD scripts/docker-entrypoint.sh /docker-entrypoint.sh
 
-# available environment variables
-ENV DATACENTER=consul-dc \
-  LOG_LEVEL=INFO \
-  NETWORK_INTERFACE=eth0 \
-  BIND_ADDR=0.0.0.0 \
-  BOOTSTRAP_EXPECT=1
-
 # export ports for various purposes if needed
 EXPOSE 8300 8301 8301/udp 8302 8302/udp 8400 8500 8600 8600/udp
 
