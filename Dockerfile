@@ -17,8 +17,8 @@ ADD scripts/docker-entrypoint.sh /docker-entrypoint.sh
 # available environment variables
 ENV DATACENTER=consul-dc \
   LOG_LEVEL=INFO \
+  NETWORK_INTERFACE=eth0 \
   BIND_ADDR=0.0.0.0 \
-  # for server nodes only
   BOOTSTRAP_EXPECT=1
 
 # export ports for various purposes if needed

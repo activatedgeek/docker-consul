@@ -1,14 +1,18 @@
 #!/usr/bin/env sh
 
+##
+# external inputs with reasonable defaults
+#
 DATACENTER=${DATACENTER:-consul-dc}
 LOG_LEVEL=${LOG_LEVEL:-INFO}
-
-DEFAULT_NETWORK_BIND_ADDR=`ip route|awk '/default/ { print $3 }'`
-
-BIND_ADDR=${BIND_ADDR:-$DEFAULT_NETWORK_BIND_ADDR}
-HOSTNAME=`hostname`
+NETWORK_INTERFACE=${NETWORK_INTERFACE:-eth0}
 # only used during server mode, recommended for HA clusters
 BOOTSTRAP_EXPECT=${BOOTSTRAP_EXPECT:-1}
+
+NETWORK_BIND_ADDR=`ifconfig $NETWORK_INTERFACE| awk '/inet addr/{print substr($2,6)}'`
+# either use the default network address or externally provided
+BIND_ADDR=${BIND_ADDR:-$DEFAULT_NETWORK_BIND_ADDR}
+HOSTNAME=`hostname`
 
 if [[ "$1" = "" ]]; then
   echo "[ERROR] Mode argument missing, need 'server' or 'agent'"
