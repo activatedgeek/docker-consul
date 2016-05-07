@@ -10,7 +10,8 @@ The container contains the following:
 * `Consul` (0.6.4)
 
 ## Images
-* `latest`, `0.1`, `0.1.6` ([Dockerfile](./Dockerfile))
+* `latest`, `0.2`, `0.2.0` ([Dockerfile](./Dockerfile))
+* `0.1`, `0.1.5`
 
 ## Usage
 Pull the docker image from Docker hub as:

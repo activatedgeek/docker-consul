@@ -9,12 +9,12 @@ NETWORK_INTERFACE=${NETWORK_INTERFACE:-eth0}
 # only used during server mode, recommended for HA clusters
 BOOTSTRAP_EXPECT=${BOOTSTRAP_EXPECT:-1}
 
-NETWORK_BIND_ADDR=`ifconfig $NETWORK_INTERFACE| awk '/inet addr/{print substr($2,6)}'`
+NETWORK_BIND_ADDR=$(ifconfig "$NETWORK_INTERFACE"| awk '/inet addr/{print substr($2,6)}')
 # either use the default network address or externally provided
 BIND_ADDR=${BIND_ADDR:-$NETWORK_BIND_ADDR}
-HOSTNAME=`hostname`
+HOSTNAME=$(hostname)
 
-if [[ "$1" = "" ]]; then
+if [ "$1" = "" ]; then
   echo "[ERROR] Mode argument missing, need 'server' or 'agent'"
   exit 1
 fi
@@ -26,7 +26,7 @@ MODE="$1"
 JOIN_ADDR="$2"
 
 # setup consul server config
-read -d '' SERVER_CONFIG << EOS
+SERVER_CONFIG=$(cat <<EOS
 {
   "server": true,
   "node_name": "$HOSTNAME",
@@ -38,16 +38,17 @@ read -d '' SERVER_CONFIG << EOS
   "ui": true,
   "bootstrap_expect": $BOOTSTRAP_EXPECT
 EOS
+)
 
 # if $JOIN_ADDR is not empty, then add to config
-if [[ $JOIN_ADDR != "" ]]; then
+if [ "$JOIN_ADDR" != "" ]; then
   SERVER_CONFIG=$SERVER_CONFIG$',\n  "start_join": '"[\"$JOIN_ADDR\"]"
 fi
 
 SERVER_CONFIG=$SERVER_CONFIG$'\n}'
 
 # setup consul agent config
-read -d '' AGENT_CONFIG << EOA
+AGENT_CONFIG=$(cat <<EOA
 {
   "node_name": "$HOSTNAME",
   "datacenter": "$DATACENTER",
@@ -57,11 +58,12 @@ read -d '' AGENT_CONFIG << EOA
   "start_join": ["$JOIN_ADDR"]
 }
 EOA
+)
 
-if [[ $MODE = "server" ]]; then
+if [ "$MODE" = "server" ]; then
   echo "$SERVER_CONFIG" > /opt/consul/server/conf.d/00consul-server.json
   /bin/consul agent -config-dir=/opt/consul/server/conf.d
-elif [[ $MODE = "agent" ]]; then
+elif [ "$MODE" = "agent" ]; then
   echo "$AGENT_CONFIG" > /opt/consul/agent/conf.d/00consul-agent.json
   /bin/consul agent -config-dir=/opt/consul/agent/conf.d
 else
