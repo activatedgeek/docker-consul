@@ -22,11 +22,11 @@ fi
 # must be server or agent
 MODE="$1"
 
-# needs a FQDN or reachable IP address
+# needs a FQDN or reachable IP address (can be empty for first node)
 JOIN_ADDR="$2"
 
 # setup consul server config
-cat > /opt/consul/server/conf.d/00consul-server.json <<- EOS
+read -d '' SERVER_CONFIG << EOS
 {
   "server": true,
   "node_name": "$HOSTNAME",
@@ -36,13 +36,18 @@ cat > /opt/consul/server/conf.d/00consul-server.json <<- EOS
   "bind_addr": "$BIND_ADDR",
   "client_addr": "0.0.0.0",
   "ui": true,
-  "bootstrap_expect": $BOOTSTRAP_EXPECT,
-  "start_join": ["$JOIN_ADDR"]
-}
+  "bootstrap_expect": $BOOTSTRAP_EXPECT
 EOS
 
+# if $JOIN_ADDR is not empty, then add to config
+if [[ $JOIN_ADDR != "" ]]; then
+  SERVER_CONFIG=$SERVER_CONFIG$',\n  "start_join": '"[\"$JOIN_ADDR\"]"
+fi
+
+SERVER_CONFIG=$SERVER_CONFIG$'\n}'
+
 # setup consul agent config
-cat > /opt/consul/agent/conf.d/00consul-agent.json <<- EOA
+read -d '' AGENT_CONFIG << EOA
 {
   "node_name": "$HOSTNAME",
   "datacenter": "$DATACENTER",
@@ -54,8 +59,10 @@ cat > /opt/consul/agent/conf.d/00consul-agent.json <<- EOA
 EOA
 
 if [[ $MODE = "server" ]]; then
+  echo "$SERVER_CONFIG" > /opt/consul/server/conf.d/00consul-server.json
   /bin/consul agent -config-dir=/opt/consul/server/conf.d
 elif [[ $MODE = "agent" ]]; then
+  echo "$AGENT_CONFIG" > /opt/consul/agent/conf.d/00consul-agent.json
   /bin/consul agent -config-dir=/opt/consul/agent/conf.d
 else
   echo "[ERROR] Invalid Mode, need 'server' or 'agent', found $MODE"
