@@ -10,7 +10,7 @@ The container contains the following:
 * `Consul` (0.6.4)
 
 ## Images
-* `latest`, `0.1`, `0.1.5` ([Dockerfile](./Dockerfile))
+* `latest`, `0.1`, `0.1.6` ([Dockerfile](./Dockerfile))
 
 ## Usage
 Pull the docker image from Docker hub as:
@@ -38,7 +38,7 @@ $ docker run -d -P activatedgeek/consul:latest MODE JOIN_ADDR
 The two positional arguments are:
 * `MODE`: mode of the `Consul` node, can take values `server` or `agent`
 * `JOIN_ADDR`: a valid FQDN or IP address of a peer node whose cluster to join,
-when starting the first node, this can be `127.0.0.1`.
+when starting the first node, this argument can be skipped.
 
 ## Build
 To build the latest image from source, run
