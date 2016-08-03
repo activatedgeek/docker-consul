@@ -1,7 +1,7 @@
 # docker-consul
 
-| [![Build Status](https://travis-ci.org/activatedgeek/docker-consul.svg?branch=master)](https://travis-ci.org/activatedgeek/docker-consul) | [![](https://imagelayers.io/badge/activatedgeek/consul:latest.svg)](https://imagelayers.io/?images=activatedgeek/consul:latest 'Get your own badge on imagelayers.io') |
-|:-:|:-:|
+| [![Build Status](https://travis-ci.org/activatedgeek/docker-consul.svg?branch=master)](https://travis-ci.org/activatedgeek/docker-consul) | [![](https://imagelayers.io/badge/activatedgeek/consul:latest.svg)](https://imagelayers.io/?images=activatedgeek/consul:latest 'Get your own badge on imagelayers.io') | [![Docker Pulls](https://img.shields.io/docker/pulls/activatedgeek/consul.svg?maxAge=2592000?style=plastic)](https://hub.docker.com/r/activatedgeek/consul/)
+|:-:|:-:|:-:|
 
 A Consul Docker image based on Alpine Linux. It can be used to run in both
 server mode and agent mode.
