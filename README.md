@@ -6,11 +6,9 @@
 A Consul Docker image based on Alpine Linux. It can be used to run in both
 server mode and agent mode.
 
-The container contains the following:
-* `Consul` (0.6.4)
-
 ## Images
-* `latest`, `0.2`, `0.2.0` ([Dockerfile](./Dockerfile))
+* `latest`, `0.7`, `0.7.0` ([Dockerfile](./Dockerfile))
+* `0.2`, `0.2.0`
 * `0.1`, `0.1.5`
 
 ## Usage

@@ -4,9 +4,9 @@ MAINTAINER Sanyam Kapoor "1sanyamkapoor@gmail.com"
 
 RUN apk update &&\
   apk add --update curl &&\
-  curl https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip -o consul_0.6.4_linux_amd64.zip &&\
-  unzip consul_0.6.4_linux_amd64.zip &&\
-  rm consul_0.6.4_linux_amd64.zip &&\
+  curl https://releases.hashicorp.com/consul/0.7.0/consul_0.7.0_linux_amd64.zip -o consul_0.7.0_linux_amd64.zip &&\
+  unzip consul_0.7.0_linux_amd64.zip &&\
+  rm consul_0.7.0_linux_amd64.zip &&\
   mv consul /bin/consul &&\
   chmod a+x /bin/consul &&\
   mkdir -p /opt/consul/server/conf.d /opt/consul/agent/conf.d &&\
